@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:39:32 by lnemor            #+#    #+#             */
-/*   Updated: 2022/01/27 13:27:30 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/01/27 17:09:37 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	init_pipe_and_fd(t_pipex *pipex, char **argv)
 	if (pipex->file_in < 0)
 		exit_error(pipex, "Invalid fd\n", 0);
 	pipex->file_out = open(argv[4], O_TRUNC | O_RDWR | O_CREAT, 0644);
+	if (pipex->file_out < 0)
+		exit_error(pipex, "Invalid fd\n", 0);
 }
 
 void	close_and_wait(t_pipex *pipex)
