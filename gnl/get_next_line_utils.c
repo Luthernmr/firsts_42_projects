@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 10:11:52 by lnemor            #+#    #+#             */
-/*   Updated: 2022/01/27 16:20:09 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/01/28 16:57:30 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*ft_strchr(const char *str, int chr)
 	return (NULL);
 }
 
-char	*ft_strndup(char *src, int size)
+char	*ft_strdup(char *src)
 {
 	char	*dest;
 	int		len;
@@ -104,7 +104,7 @@ char	*ft_strndup(char *src, int size)
 	dest = (char *)malloc(sizeof(char) * (len + 1));
 	if (!dest)
 		return (NULL);
-	while (src[i] && i < size)
+	while (src[i])
 	{
 		dest[i] = src[i];
 		i++;

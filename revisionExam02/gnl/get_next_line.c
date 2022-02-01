@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:21:39 by lnemor            #+#    #+#             */
-/*   Updated: 2022/01/20 17:48:50 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 13:58:38 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*read_text(int fd, char *buf, char *str_saved)
 			return (str_saved);
 		buf[res] = '\0';
 		if (!str_saved)
-			str_saved = ft_strdup("");
+			str_saved = ft_substr("", 0, 0);
 		temp_dest = str_saved;
 		str_saved = ft_strjoin(temp_dest, buf);
 		free(temp_dest);

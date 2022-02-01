@@ -13,7 +13,7 @@
 NAME	=	libft.a
 
 SRCS	=	ft_strlcpy.c \
-			ft_strlen.c	\
+			ft_strlen.c \
 			ft_isalnum.c \
 			ft_isalpha.c \
 			ft_isascii.c \
