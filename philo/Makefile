@@ -6,7 +6,7 @@
 #    By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/28 15:03:20 by lnemor            #+#    #+#              #
-#    Updated: 2022/02/04 16:26:47 by lnemor           ###   ########lyon.fr    #
+#    Updated: 2022/02/07 15:53:09 by lnemor           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc 
 
-CFLAGS	= -Wall -Werror -Wextra -D_REENTRANT -g -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -D_REENTRANT -g
 
 RM		= 	rm -f
 

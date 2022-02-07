@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 15:04:34 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/04 16:54:07 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/07 16:19:45 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,32 @@
 
 void	*take_fork(t_philo *philo)
 {
-	pthread_mutex_lock(&philo[philo->id].mutex_fork_left);
-	printf("philo %d prend une fourchette gauche\n", (int)philo[philo->id].id);
-	pthread_mutex_lock(&philo[philo->id].mutex_fork_right);
-	printf("philo %d prend une fourchette droite\n", (int)philo[philo->id].id);
+	pthread_mutex_lock(&(philo->setup->mutex_fork[philo->fork_left]));
+	printf("philo %d has take lfork %d\n", philo->id, philo->fork_left);
+	pthread_mutex_lock(&(philo->setup->mutex_fork[philo->fork_right]));
+	printf("philo %d has take rfork %d\n", philo->id, philo->fork_right);
 	return (NULL);
 }
 
-void	*routine_philo(void *set)
+void	*philo_eat(t_philo *philo)
 {
-	t_setup			*setup;
+	pthread_mutex_lock(&(philo->mutex_eat));
+	philo->eat = 1;
+	printf("eat\n");
+	philo->eat = 0;
+	pthread_mutex_unlock(&(philo->mutex_eat));
+	pthread_mutex_unlock(&(philo->setup->mutex_fork[philo->fork_left]));
+	pthread_mutex_unlock(&(philo->setup->mutex_fork[philo->fork_right]));
+	return (NULL);
+}
 
-	setup = (t_setup *)set;
-	take_fork(setup.philo[philo->id]);
+void	*routine_philo(void *phi)
+{
+	t_philo			*philo;
+
+	philo = (t_philo *)phi;
+	take_fork(philo);
+	philo_eat(philo);
 	return (NULL);
 }
 
@@ -44,25 +57,32 @@ int	main(int argc, char **argv)
 		return (0);
 	setup.number_of_philosophers = ft_atoi(argv[1]);
 	setup.philo = malloc (sizeof(t_philo) * setup.number_of_philosophers);
-	pthread_mutex_init(&setup.mutex_fork, NULL);
 	while (i < setup.number_of_philosophers)
 	{
 		setup.philo[i].id = i + 1;
+		dprintf(1, "philo_id : %d | ", setup.philo[i].id);
 		setup.philo[i].eat = 0;
+		setup.philo[i].die = 0;
+		setup.philo[i].think = 0;
 		setup.philo[i].sleep = 0;
+		setup.philo[i].fork_left = i;
+		dprintf(1, "fork_l : %d | ", setup.philo[i].fork_left);
+		setup.philo[i].fork_right = (i + 1) % setup.number_of_philosophers;
+		setup.philo[i].setup = &setup;
+		dprintf(1, "fork_r : %d\n", setup.philo[i].fork_right);
 		i++;
 	}
+	setup.mutex_fork = malloc(sizeof(pthread_mutex_t) * setup.number_of_philosophers);
 	i = 0;
 	while (i < setup.number_of_philosophers)
 	{
 		pthread_create(&(setup.philo[i].thread_id), NULL,
-			&routine_philo,
-			(void *)setup.philo);
+			&routine_philo, &(setup.philo[i]));
 		setup.philo[i].id = i + 1;
-		usleep(200);
+		usleep(20);
 		i++;
 	}
 
-	//eat = pthread_create(fork, NULL, take_fork, "test");
+	
 	return (0);
 }

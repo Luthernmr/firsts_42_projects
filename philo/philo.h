@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 15:20:22 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/04 15:26:20 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/07 16:17:36 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,33 @@
 # include <pthread.h>
 # include "libft/libft.h"
 # include <stdio.h>
+# include <time.h>
 
-typedef struct t_philo
+typedef struct s_philo
 {
-	size_t			id;
+	int				id;
 	int				eat;
 	int				sleep;
+	int				think;
 	int				die;
-	pthread_mutex_t	mutex_fork_right;
-	pthread_mutex_t	mutex_fork_left;
+	int				fork_right;
+	int				fork_left;
+	pthread_mutex_t	mutex_eat;
+	struct s_setup	*setup;
 	pthread_t		thread_id;
 
 }				t_philo;
 
-typedef struct t_setup
+typedef struct s_setup
 {
 	int				number_of_philosophers;
-	int				time_to_die;
+	timeval				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				time_must_eat;
 	t_philo			*philo;
-	pthread_mutex_t	mutex_fork;
+	pthread_mutex_t	*mutex_fork;
+	pthread_mutex_t	*mutex_sleep;
 }				t_setup;
 
 #endif
