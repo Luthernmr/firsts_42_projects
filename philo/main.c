@@ -6,28 +6,23 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 15:04:34 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/07 16:19:45 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/07 18:21:43 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*take_fork(t_philo *philo)
+void	*philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->setup->mutex_fork[philo->fork_left]));
 	printf("philo %d has take lfork %d\n", philo->id, philo->fork_left);
 	pthread_mutex_lock(&(philo->setup->mutex_fork[philo->fork_right]));
 	printf("philo %d has take rfork %d\n", philo->id, philo->fork_right);
-	return (NULL);
-}
-
-void	*philo_eat(t_philo *philo)
-{
-	pthread_mutex_lock(&(philo->mutex_eat));
+	pthread_mutex_lock(&(philo->setup->mutex_eat));
 	philo->eat = 1;
 	printf("eat\n");
 	philo->eat = 0;
-	pthread_mutex_unlock(&(philo->mutex_eat));
+	pthread_mutex_unlock(&(philo->setup->mutex_eat));
 	pthread_mutex_unlock(&(philo->setup->mutex_fork[philo->fork_left]));
 	pthread_mutex_unlock(&(philo->setup->mutex_fork[philo->fork_right]));
 	return (NULL);
@@ -36,10 +31,16 @@ void	*philo_eat(t_philo *philo)
 void	*routine_philo(void *phi)
 {
 	t_philo			*philo;
+	int				i;
 
+	i = 0;
 	philo = (t_philo *)phi;
-	take_fork(philo);
-	philo_eat(philo);
+	if (philo->id % 2 == 0)
+		usleep(15000);
+	if (philo->setup->someone_died == 0)
+	{
+		philo_eat(philo);
+	}
 	return (NULL);
 }
 
@@ -57,9 +58,9 @@ int	main(int argc, char **argv)
 		return (0);
 	setup.number_of_philosophers = ft_atoi(argv[1]);
 	setup.philo = malloc (sizeof(t_philo) * setup.number_of_philosophers);
+	setup.someone_died = 0;
 	while (i < setup.number_of_philosophers)
 	{
-		setup.philo[i].id = i + 1;
 		dprintf(1, "philo_id : %d | ", setup.philo[i].id);
 		setup.philo[i].eat = 0;
 		setup.philo[i].die = 0;
