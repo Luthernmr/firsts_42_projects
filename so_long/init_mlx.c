@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 13:03:01 by lnemor            #+#    #+#             */
-/*   Updated: 2022/01/14 14:29:34 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/10 16:24:03 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	init_mlx(t_program *program)
 void	init_sprites(t_program *program)
 {
 	program->image.wall = mlx_xpm_file_to_image(program->mlx_pointer,
-			"./textures/wall.xpm", &(program->image.size_x),
-			&(program->image.size_y));
+			"./textures/wall.xpm", program->image.size_x,
+			program->image.size_y);
 	program->image.floor = mlx_xpm_file_to_image(program->mlx_pointer,
 			"./textures/floor.xpm", &(program->image.size_x),
 			&(program->image.size_y));
