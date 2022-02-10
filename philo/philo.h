@@ -36,7 +36,7 @@ typedef struct s_setup
 {
 	int				number_of_philosophers;
 	struct timeval	current_time;
-	long			time;
+	long long			time;
 	int				time_to_eat;
 	int				time_to_die;
 	int				time_to_sleep;
@@ -48,6 +48,7 @@ typedef struct s_setup
 	pthread_mutex_t	mutex_eat;
 	pthread_mutex_t	mutex_sleep;
 	pthread_mutex_t	mutex_think;
+	pthread_mutex_t	mutex_message;
 }				t_setup;
 
 #endif

@@ -22,7 +22,7 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc 
 
-CFLAGS	= -Wall -Werror -Wextra -D_REENTRANT -g
+CFLAGS	= -Wall -Werror -Wextra -D_REENTRANT 
 
 RM		= 	rm -f
 
@@ -30,7 +30,7 @@ CLEAN	=	CLEAN
 
 objs/%.o:%.c philo.h libft/libft.h libft/libft.a
 	@mkdir -p objs
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 all		: libft $(NAME)
 
@@ -38,7 +38,7 @@ libft	:
 		$(MAKE) -C libft
 
 $(NAME)	:	$(addprefix objs/, $(OBJS)) 
-			$(CC)  $(CFLAGS) -o $(NAME) $(addprefix objs/, $(OBJS)) libft/libft.a
+			$(CC)  $(CFLAGS) -o $(NAME) $(addprefix objs/, $(OBJS)) libft/libft.a -lpthread
 
 clean 	: 
 		rm -rf 	objs
