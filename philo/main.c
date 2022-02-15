@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 15:04:34 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/11 16:32:11 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/15 22:01:21 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,40 @@ int	philo_eat(t_philo *philo)
 	philo_take_fork(philo);
 	pthread_mutex_lock(&(setup->mutex_fork[philo->fork_right]));
 	philo_take_fork(philo);
-	philo->eat = 1;
+	philo->eat += 1;
+	if (philo->eat == setup->nb_must_eat)
+		setup->finish_eat += 1;
 	philo->time_last_meal = (get_time(setup) - setup->time);
-	printf("last meal : %d\n", philo->time_last_meal);
 	philo_eat_msg(philo);
-	philo->eat = 0;
 	pthread_mutex_unlock(&(setup->mutex_fork[philo->fork_left]));
 	pthread_mutex_unlock(&(setup->mutex_fork[philo->fork_right]));
 	return (0);
 }
 
-//oid	check_philo_die(t_setup *setup)
-//
-//	
-//
+void	check_philo_die(t_setup *setup)
+{
+	int	i;
+
+	i = 0;
+	while (!(setup->someone_died == 1)
+		&& !(setup->finish_eat == setup->number_of_philosophers))
+	{
+		i = 0;
+		while (i < setup->number_of_philosophers)
+		{
+			if ((get_time(setup) - setup->time)
+				- setup->philo[i].time_last_meal > setup->time_to_die)
+			{
+				setup->someone_died = 1;
+				philo_die_msg(&setup->philo[i]);
+				break ;
+			}
+			if (setup->finish_eat == setup->number_of_philosophers)
+				break ;
+			i++;
+		}
+	}
+}
 
 void	*routine_philo(void *phi)
 {
@@ -48,26 +68,14 @@ void	*routine_philo(void *phi)
 	if (philo->id % 2 == 0)
 	{
 		usleep(2000);
-		philo_sleep(philo);
 		philo_think(philo);
 	}
-	while (setup->someone_died == 0)
+	while (!(setup->someone_died == 1)
+		&& !(setup->finish_eat == setup->number_of_philosophers))
 	{
 		philo_eat(philo);
 		philo_sleep(philo);
 		philo_think(philo);
-		printf("----------------------------------\n");
-		printf("----------------------------------\n");
-	}
-	while (i < setup->number_of_philosophers)
-	{
-		if (get_time(setup) - setup->philo[i].time_last_meal
-			>= setup->time_to_die)
-		{
-			setup->someone_died = 1;
-			printf("---test---\n");
-		}
-		i++;
 	}
 	return (NULL);
 }
@@ -77,7 +85,9 @@ int	main(int argc, char **argv)
 	int			i;
 	t_setup		setup;
 
-	if (argc != 5)
+	if (argc < 5 && argc > 6)
+		return (0);
+	if (ft_atoi(argv[1]) <= 0)
 		return (0);
 	init(&setup, argv);
 	i = 0;
@@ -89,7 +99,11 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	i = 0;
+	check_philo_die(&setup);
 	while (i < setup.number_of_philosophers)
 		pthread_join(setup.philo[i++].thread_id, NULL);
+	i = 0;
+	while (i < setup.number_of_philosophers)
+		pthread_mutex_destroy(&(setup.mutex_fork[i++]));
 	return (0);
 }

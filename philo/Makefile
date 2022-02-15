@@ -6,7 +6,7 @@
 #    By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/28 15:03:20 by lnemor            #+#    #+#              #
-#    Updated: 2022/02/11 12:53:52 by lnemor           ###   ########lyon.fr    #
+#    Updated: 2022/02/15 17:03:31 by lnemor           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc 
 
-CFLAGS	= -Wall -Werror -Wextra  
+CFLAGS	= -Wall -Werror -Wextra #-g -fsanitize=thread
 
 RM		= 	rm -f
 
 CLEAN	=	CLEAN
 
-objs/%.o:%.c philo.h
+objs/%.o:%.c philo.h Makefile
 	@mkdir -p objs
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
