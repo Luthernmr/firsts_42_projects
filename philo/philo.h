@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 15:20:22 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/15 15:25:33 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/17 17:33:20 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct s_setup
 	t_philo			*philo;
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	mutex_eat;
-	pthread_mutex_t	mutex_sleep;
-	pthread_mutex_t	mutex_think;
+	pthread_mutex_t	mutex_last_meal;
+	pthread_mutex_t	mutex_die;
 	pthread_mutex_t	mutex_message;
 }				t_setup;
 
@@ -60,7 +60,11 @@ void	philo_eat_msg(t_philo *philo);
 void	philo_die_msg(t_philo *philo);
 long	get_time(t_setup *setup);
 void	init_mutex(t_setup *setup);
-void	init(t_setup *setup, char **argv);
+int		init(t_setup *setup, char **argv);
+int		check_value(t_setup *setup, pthread_mutex_t *mutex, char c);
 int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
+int		ft_isspace(char c);
+void	usleep_custom(int time);
 
 #endif
