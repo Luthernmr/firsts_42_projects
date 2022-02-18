@@ -12,6 +12,22 @@
 
 #include "philo.h"
 
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\r'
+		|| c == '\n' || c == '\f' || c == '\v')
+		return (1);
+	return (0);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (c);
+}
+
 static int	check_alpha(char *str)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:17:44 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/17 17:54:12 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 15:18:04 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	philo_sleep(t_philo *philo)
 		printf("%lld %d is sleeping\n", get_time(philo->setup)
 			- philo->setup->time, philo->id);
 		pthread_mutex_unlock(&(philo->setup->mutex_message));
-		usleep_custom((philo->setup->time_to_sleep) * 1000);
+		usleep_custom(philo->setup, (philo->setup->time_to_sleep));
 	}
 }	
 
@@ -58,7 +58,7 @@ void	philo_eat_msg(t_philo *philo)
 		printf("%lld %d is eating\n", get_time(philo->setup)
 			- philo->setup->time, philo->id);
 		pthread_mutex_unlock(&(philo->setup->mutex_message));
-		usleep_custom((philo->setup->time_to_eat) * 1000);
+		usleep_custom(philo->setup, (philo->setup->time_to_eat));
 	}
 }
 

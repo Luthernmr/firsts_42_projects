@@ -6,27 +6,24 @@
 /*   By: lnemor <lnemor@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:25:27 by lnemor            #+#    #+#             */
-/*   Updated: 2022/02/17 17:33:31 by lnemor           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 16:32:40 by lnemor           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_mutex(t_setup *setup)
+int	init_mutex(t_setup *setup)
 {
 	int	i;
 
 	i = setup->number_of_philosophers;
-	setup->mutex_fork = malloc(sizeof(pthread_mutex_t)
-			* setup->number_of_philosophers);
-	if (!setup->mutex_fork)
-		return ;
 	while (--i >= 0)
 		pthread_mutex_init(&(setup->mutex_fork[i]), NULL);
 	pthread_mutex_init(&(setup->mutex_message), NULL);
 	pthread_mutex_init(&(setup->mutex_eat), NULL);
 	pthread_mutex_init(&(setup->mutex_last_meal), NULL);
 	pthread_mutex_init(&(setup->mutex_die), NULL);
+	return (0);
 }
 
 int	init_time(t_setup *setup, char **argv)
@@ -62,9 +59,6 @@ int	init(t_setup *setup, char **argv)
 		return (-1);
 	if (argv[5])
 		setup->nb_must_eat = ft_atoi(argv[5]);
-	setup->philo = malloc (sizeof(t_philo) * setup->number_of_philosophers + 1);
-	if (!setup->philo)
-		return (-1);
 	setup->someone_died = 0;
 	while (++i < setup->number_of_philosophers)
 	{
