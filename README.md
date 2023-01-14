@@ -1,3 +1,10 @@
-# 42_MAISON
+# 42_HOme
 
-Projecs from 42 cursus
+my first projects from 42 cursus
+
+- sort alogorith
+- write a C librairy
+- recode printf
+- read a file
+- recode the shel pipe '|'
+- learn multithreading
