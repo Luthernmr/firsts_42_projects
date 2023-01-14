@@ -1,4 +1,4 @@
-# 42_HOme
+# 42_Home
 
 my first projects from 42 cursus
 
@@ -6,5 +6,5 @@ my first projects from 42 cursus
 - write a C librairy
 - recode printf
 - read a file
-- recode the shel pipe '|'
+- recode the shel pipe `|`
 - learn multithreading
